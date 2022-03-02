@@ -1,6 +1,6 @@
 import * as Tone from "tone";
 import './App.css';
-import Dot from './Dot';
+import DotRow from './DotRow';
 
 function App() {
   const bPat1 = [1,0,0,0, 1,1,0,0, 1,0,0,0, 1,1,0,0];
@@ -34,9 +34,9 @@ function App() {
     <>
       <button onClick={play}>Play</button>
       <div id="wrapper">
-        {bPat1.map((beat, i) => <Dot active={beat} key={i}/>)}
+        <DotRow pattern={bPat1}/>
         <br/>
-        {bPat2.map((beat, i) => <Dot active={beat} key={i}/>)}
+        <DotRow pattern={bPat2}/>
       </div>
     </>
   );
