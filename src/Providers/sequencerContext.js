@@ -1,5 +1,5 @@
 import * as Tone from "tone";
-import React, { useState, useContext, createContext } from 'react';
+import React, { useState, useContext, createContext, useEffect, useRef } from 'react';
 import {positionContext} from '../Providers/positionContext';
 import {patternContext} from '../Providers/patternContext';
 
@@ -9,35 +9,19 @@ export const sequencerContext = createContext();
 const SequencerProvider = props => {
 
   const {setPosition} = useContext(positionContext);
-  const {lines} = useContext(patternContext);
+  const {lines, usePat1, usePat2} = useContext(patternContext);
+  // const [localLines, setLocalLines] = useState(lines);
+  const localLines = useRef(lines);
 
-
-  // const resetLines = (newLines) => {
-  //   console.log("setting lines");
-  //   setLines(newLines)
-  //   console.log(newLines);
-  // };
-
-
-  // const setLine = (line,i) => {
-  //   const prev = lines;
-  //   prev[i] = line;
-  //   setLines(... prev);
-  // }
-
-  const swap = () => {
-      console.log("swapping lines");
-    // resetLines([
-    //   {pattern: bPat3, sample: synthA},
-    //   {pattern: bPat4, sample: synthB},
-    // ])
-  }
+  useEffect(() => {
+    localLines.current = lines;
+  },[lines]);
 
   const play = () => {
     Tone.start()
     let i = 0;
     let loopA  = new Tone.Loop((time) => {
-      for (let line of lines) {
+      for (let line of localLines.current) {
         if (line.pattern[i]) {  line.sample.triggerAttackRelease("C3","16n",time);  }
       }
       i = ((i + 1) % 16);
@@ -47,7 +31,7 @@ const SequencerProvider = props => {
     Tone.Transport.start();
   };
 
-  const provideData = { play, swap};
+  const provideData = { play, usePat1, usePat2};
 
   return (
     <sequencerContext.Provider value={provideData}>

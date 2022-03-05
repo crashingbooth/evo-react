@@ -25,7 +25,23 @@ const PatternProvider = props => {
 
   const [lines, setLines] = useState(sampleLines);
 
-  const provideData = { lines, setLines };
+  const usePat1 = () => {
+    setLines([
+      {pattern: bPat1, sample: synthA},
+      {pattern: bPat2, sample: synthB},
+    ])
+  }
+
+  const usePat2 = () => {
+    console.log("called usePat2");
+    setLines([
+      {pattern: bPat3, sample: synthA},
+      {pattern: bPat4, sample: synthB},
+    ])
+  }
+
+
+  const provideData = { lines, setLines, usePat1, usePat2 };
 
   return (
     <patternContext.Provider value={provideData}>

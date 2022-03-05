@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {positionContext} from '../Providers/positionContext';
+import {patternContext} from '../Providers/patternContext';
 import './Dot.css';
 
 export default function Dot(props) {
-  const [active, setActive] = useState(props.active);
   const [highlighted, setHighlighted] = useState(false);
   const { pos } = useContext(positionContext);
+  const { pattern } = useContext(patternContext);
   useEffect(() => {
-    setHighlighted(props.id === pos);
+    if (highlighted !== (props.id === pos)) {
+      if (props.active )  {
+        setHighlighted(props.id === pos);
+        setTimeout(() => {
+          setHighlighted(false)
+        },150);
+      }
+    }
   },[pos]);
-  const toggle = () => {
-    setActive(!active);
-  };
-
 
   const flash = () => {
     setHighlighted(true);
@@ -23,6 +27,6 @@ export default function Dot(props) {
   };
 
   return (
-    <button className={`dot ${active ? "on-dot" : "off-dot"} ${highlighted ? "highlighted-dot" : ""}`} onClick={flash}></button>
+    <button className={`dot ${highlighted ? "highlighted-dot" : ""} ${props.active ? "on-dot" : "off-dot"}`} onClick={flash}></button>
   )
 }

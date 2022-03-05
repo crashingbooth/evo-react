@@ -6,16 +6,15 @@
   width: 25px;
   display: inline-block;
   margin: 2px;
+  border-radius: 50%;
 }
 
 .on-dot {
   background-color: #000;
-  border-radius: 50%;
 }
 
 .off-dot {
   background-color: #bbb;
-  border-radius: 50%;
 }
 
 @keyframes blink {
