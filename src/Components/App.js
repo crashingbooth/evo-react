@@ -5,30 +5,16 @@ import './App.css';
 import DotRow from './DotRow';
 
 function App() {
-  const { lines, resetLines } = useContext(sequencerContext);
-  const highlightedIndex = useRef(0);
+  const { lines, resetLines, play, i } = useContext(sequencerContext);
 
-  let i = 0;
-  const play = () => {
-    Tone.start()
-    let loopA  = new Tone.Loop((time) => {
-      for (let line of lines) {
-        if (line.pattern[i]) {  line.sample.triggerAttackRelease("C3","16n",time);  }
-      }
-      i += 1;
-      if (i >= 16) { i = 0};
-    }, "16n").start(0);
-
-    Tone.Transport.start();
-  };
 
   return (
     <>
       <button onClick={play}>Play</button>
       <div id="wrapper">
-        <DotRow pattern={lines[0].pattern} highlightedIndex={highlightedIndex.current}/>
+        <DotRow pattern={lines[0].pattern} />
                 <br/>
-        <DotRow pattern={lines[1].pattern} highlightedIndex={highlightedIndex.current}/>
+        <DotRow pattern={lines[1].pattern} />
       </div>
     </>
   );

@@ -24,6 +24,7 @@ const PatternProvider = props => {
     {pattern: bPat2, sample: synthB},
   ]
   const [lines, setLines] = useState(sampleLines);
+  const [i, setI] = useState(0);
 
 
   const resetLines = (newLines) => {
@@ -35,11 +36,29 @@ const PatternProvider = props => {
 
   const setLine = (line,i) => {
     const prev = lines;
-    lines[i] = line;
-    setLines(lines);
+    prev[i] = line;
+    setLines(... prev);
   }
 
-  const provideData = { lines, setLine, resetLines };
+  const play = () => {
+    Tone.start()
+    let i = 0;
+    let loopA  = new Tone.Loop((time) => {
+      for (let line of lines) {
+        if (line.pattern[i]) {  line.sample.triggerAttackRelease("C3","16n",time);  }
+      }
+      if (i + 1 >= 16) {
+        i = 0;
+      } else {
+        i += 1;
+      }
+      setI(i);
+    }, "16n").start(0);
+
+    Tone.Transport.start();
+  };
+
+  const provideData = { lines, setLine, resetLines, play, i };
 
   return (
     <sequencerContext.Provider value={provideData}>

@@ -4,10 +4,10 @@ import Dot from './Dot';
 export default function DotRow(props) {
   const [pattern, setPattern] = useState(props.pattern);
   const [highlightedIndex, setHighlightedIndex] = useState(props.highlightedIndex);
-  console.log("rerender", highlightedIndex);
+  console.log("rerender dot row", highlightedIndex);
   return (
     <>
-    {pattern.map((beat, i) => <Dot active={beat} key={i} highlighted={highlightedIndex===i}/>)}
+    {pattern.map((beat, i) => <Dot active={beat} key={i} id={i} />)}
     </>
   )
 }
