@@ -2,14 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './Components/App';
-import PatternProvider from './Providers/sequencerContext';
+import SequencerProvider from './Providers/sequencerContext';
+import PositionProvider from './Providers/positionContext';
+import PatternProvider from './Providers/patternContext';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <PatternProvider>
-      <App />
-    </PatternProvider>
+    <PositionProvider>
+      <PatternProvider>
+        <SequencerProvider>
+          <App />
+        </SequencerProvider>
+      </PatternProvider>
+    </PositionProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

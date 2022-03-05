@@ -1,20 +1,20 @@
-import * as Tone from "tone";
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import {sequencerContext} from '../Providers/sequencerContext';
 import './App.css';
 import DotRow from './DotRow';
+import Transport from './Transport';
 
 function App() {
-  const { lines, resetLines, play, i } = useContext(sequencerContext);
-
+  console.log("app rerender");
+  // const { play, swap } = useContext(sequencerContext);
 
   return (
     <>
-      <button onClick={play}>Play</button>
+      <Transport/>
       <div id="wrapper">
-        <DotRow pattern={lines[0].pattern} />
+        <DotRow lineNumber={0} />
                 <br/>
-        <DotRow pattern={lines[1].pattern} />
+        <DotRow lineNumber={1} />
       </div>
     </>
   );

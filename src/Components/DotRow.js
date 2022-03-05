@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Dot from './Dot';
+import {patternContext} from '../Providers/patternContext';
 
 export default function DotRow(props) {
-  const [pattern, setPattern] = useState(props.pattern);
-  const [highlightedIndex, setHighlightedIndex] = useState(props.highlightedIndex);
-  console.log("rerender dot row", highlightedIndex);
+  const { lines } = useContext(patternContext);
+  const [pattern, setPattern] = useState(lines[props.lineNumber].pattern);
+  console.log("rerender dot row");
   return (
     <>
-    {pattern.map((beat, i) => <Dot active={beat} key={i} id={i} />)}
+    {pattern.map((beat, index) => <Dot active={beat} key={index} id={index} />)}
     </>
   )
 }
