@@ -2,11 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './Components/App';
+import PatternProvider from './Providers/sequencerContext';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <PatternProvider>
+      <App />
+    </PatternProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

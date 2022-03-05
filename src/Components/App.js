@@ -1,5 +1,6 @@
 import * as Tone from "tone";
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
+import {sequencerContext} from '../Providers/sequencerContext';
 import './App.css';
 import DotRow from './DotRow';
 
@@ -11,6 +12,7 @@ function App() {
   const patterns = [bPat1, bPat2];
 
   const highlightedIndex = useRef(0);
+  const { resetLines } = useContext(sequencerContext);
 
   const synthA = new Tone.Sampler({
 	urls: {	C3: "audio/kick.mp3" },
@@ -24,6 +26,8 @@ function App() {
     {pattern: bPat1, sample: synthA},
     {pattern: bPat2, sample: synthB},
   ]
+  resetLines(lines);
+
 
   let i = 0;
   const play = () => {
