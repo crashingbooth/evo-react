@@ -8,13 +8,10 @@ export default function Dot(props) {
   const { pos } = useContext(positionContext);
   const { pattern } = useContext(patternContext);
   useEffect(() => {
-    if (highlighted !== (props.id === pos)) {
-      if (props.active )  {
-        setHighlighted(props.id === pos);
-        setTimeout(() => {
-          setHighlighted(false)
-        },150);
-      }
+    if (!props.active || highlighted) { return; }
+
+    if (props.id === pos) {
+      flash()
     }
   },[pos]);
 
@@ -23,7 +20,6 @@ export default function Dot(props) {
     setTimeout(() => {
       setHighlighted(false)
     },150);
-    console.log("flash")
   };
 
   return (
