@@ -9,12 +9,14 @@ export const sequencerContext = createContext();
 const SequencerProvider = props => {
 
   const {setPosition} = useContext(positionContext);
-  const {lines, usePat1, usePat2} = useContext(patternContext);
+  const {lines} = useContext(patternContext);
   const localLines = useRef(lines);
   const playing = useRef();
 
   useEffect(() => {
     localLines.current = lines;
+    console.log("lines changed");
+    console.log(localLines.current);
   },[lines]);
 
   let loopA;
@@ -26,11 +28,11 @@ const SequencerProvider = props => {
     let i = 0;
     loopA = new Tone.Loop((time) => {
       for (let line of localLines.current) {
-        if (line.pattern[i]) {  line.sample.triggerAttackRelease("C3","16n",time);  }
+        if (line.pattern[i]) { line.sample.triggerAttackRelease("C3","16n",time);  }
       }
       i = ((i + 1) % 16);
       setPosition(i);
-    }, "16n").start(0);
+    }, "8n").start(0);
 
     Tone.Transport.start();
     playing.current = true;
@@ -43,7 +45,7 @@ const SequencerProvider = props => {
     setPosition(0);
   }
 
-  const provideData = { play, stop, usePat1, usePat2};
+  const provideData = { play, stop};
 
   return (
     <sequencerContext.Provider value={provideData}>

@@ -1,14 +1,4 @@
 
-.dot {
-  border-style: solid;
-  border-color: black;
-  height: 25px;
-  width: 25px;
-  display: inline-block;
-  margin: 2px;
-  border-radius: 50%;
-}
-
 .on-dot {
   background-color: #000;
 }

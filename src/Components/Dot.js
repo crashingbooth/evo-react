@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import {positionContext} from '../Providers/positionContext';
 import {patternContext} from '../Providers/patternContext';
 import './Dot.css';
+import '../Styles/styles.css';
 
 export default function Dot(props) {
   const [highlighted, setHighlighted] = useState(false);
