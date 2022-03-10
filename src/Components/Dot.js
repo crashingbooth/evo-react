@@ -12,15 +12,17 @@ export default function Dot(props) {
     if (!props.active || highlighted) { return; }
 
     if (props.id === pos) {
-      flash()
+      flash(100,150)
     }
   },[pos]);
 
-  const flash = () => {
-    setHighlighted(true);
+  const flash = (delay,dur) => {
     setTimeout(() => {
-      setHighlighted(false)
-    },150);
+      setHighlighted(true);
+      setTimeout(() => {
+        setHighlighted(false)
+      },dur);
+    },delay)
   };
 
   return (
