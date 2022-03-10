@@ -14,7 +14,7 @@ export default function DotRow(props) {
 
   return (
     <>
-    <MuteButton/>
+    <MuteButton lineNumber={props.lineNumber} />
     {pattern.map((beat, index) => <Dot active={beat} key={index} id={index} lineNumber={props.lineNumber}/>)}
     </>
   )

@@ -3,15 +3,23 @@ import {patternContext} from '../Providers/patternContext';
 import '../Styles/styles.css';
 
 function MuteButton(props) {
-  const [isMute, setIsMute] = useState(false);
+  const {lines, toggleMuteForLine } = useContext(patternContext);
+  const [isMute, setIsMute] = useState(lines[props.lineNumber].muteStatus);
 
+  useEffect(() => {
+    setIsMute(lines[props.lineNumber].muteStatus);
+    console.log("set is mute called")
+  }, [lines])
 
   const muteTrack = () => {
     console.log('tapped mute');
+    toggleMuteForLine(props.lineNumber);
   };
 
+
+
   return (
-    <button className='dot track-control' onClick={muteTrack}>M</button>
+    <button className={`dot track-control ${isMute ? 'selected-button' : 'unselected-button'}`} onClick={muteTrack}>M</button>
   )
 }
 

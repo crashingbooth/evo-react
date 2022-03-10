@@ -15,8 +15,6 @@ const SequencerProvider = props => {
 
   useEffect(() => {
     localLines.current = lines;
-    console.log("lines changed");
-    console.log(localLines.current);
   },[lines]);
 
   let loopA;
@@ -28,7 +26,7 @@ const SequencerProvider = props => {
     let i = 0;
     loopA = new Tone.Loop((time) => {
       for (let line of localLines.current) {
-        if (line.pattern[i]) { line.sample.triggerAttackRelease("C3","16n",time);  }
+        if (line.pattern[i] && !line.muteStatus) { line.sample.triggerAttackRelease("C3","16n",time);  }
       }
       i = ((i + 1) % 16);
       setPosition(i);
