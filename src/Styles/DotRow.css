@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  background-color: #eee;
+  padding: 5px;
+  margin: 2px;
+}
+
+.v-line {
+  border-left: 2px solid black;
+  height: 25px;
+}
+
+.spacer {
+  display: block;
+  width: 20px;
+}

@@ -12,7 +12,7 @@ export default function Dot(props) {
     if (!props.active || highlighted) { return; }
 
     if (props.id === pos) {
-      flash(100,150)
+      flash(150,150)
     }
   },[pos]);
 

@@ -17,7 +17,6 @@ function Transport() {
       <button className="transport-button" onClick={stop}>Stop</button>
       <button className="transport-button" onClick={setPat1}>UsePat1</button>
       <button className="transport-button" onClick={setPat2}>usePat2</button>
-      <button className="transport-button" onClick={randTwo}>Randomize Two</button>
       <button className="transport-button" onClick={logLines}>Log Lines</button>
     </>
   )

@@ -15,9 +15,13 @@
 }
 
 .selected-button {
-  background-color:  #FF0000;
+  background-color: #FF0000;
 }
 
 .unselected-button {
   background-color: #0000FF;
+}
+
+.highlighted-dot {
+    background-color: blue;
 }

@@ -55,9 +55,26 @@ const PatternProvider = props => {
     setLines(prev);
   }
 
+  const generateRandomLine = (size) => {
+    let res = [];
+    for (let i = 0; i < size; i++) {
+      res.push(Math.round(Math.random()));
+    }
+    return res;
+  }
+
+  const randomizeLine = (lineNumber) =>  {
+    const prev = [...lines];
+    const newPattern = generateRandomLine(lines[0].pattern.length);
+    prev[lineNumber].pattern = newPattern;
+    setLines(prev);
+  }
 
 
-  const provideData = { lines, setLines, setPat1, setPat2, logLines, toggleMuteForLine };
+
+
+
+  const provideData = { lines, setLines, setPat1, setPat2, logLines, toggleMuteForLine, randomizeLine };
 
   return (
     <patternContext.Provider value={provideData}>
