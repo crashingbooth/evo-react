@@ -2,17 +2,17 @@ import React, { useState, useRef, useContext, useEffect } from 'react';
 import './App.css';
 import DotRow from './DotRow';
 import Transport from './Transport';
+import {patternContext} from '../Providers/patternContext';
 
 function App() {
   console.log("app rerender");
+  const { lines } = useContext(patternContext);
 
   return (
     <>
       <Transport/>
       <div id="wrapper">
-        <DotRow lineNumber={0} />
-                <br/>
-        <DotRow lineNumber={1} />
+        {lines.map((line, i) => <DotRow lineNumber={i} key={i}/>)}
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import '../Styles/styles.css';
 
 export default function Dot(props) {
   const [highlighted, setHighlighted] = useState(false);
+  const [mutedHighlighted, setMutedHighlighted] = useState(false);
   const { pos } = useContext(positionContext);
   const { pattern, toggleDot } = useContext(patternContext);
   useEffect(() => {
@@ -18,9 +19,10 @@ export default function Dot(props) {
 
   const flash = (delay,dur) => {
     setTimeout(() => {
-      setHighlighted(true);
+      props.isMute ? setMutedHighlighted(true) : setHighlighted(true);
       setTimeout(() => {
-        setHighlighted(false)
+        setHighlighted(false);
+        setMutedHighlighted(false);
       },dur);
     },delay)
   };
@@ -30,6 +32,6 @@ export default function Dot(props) {
   }
 
   return (
-    <button className={`dot ${highlighted ? "highlighted-dot" : ""} ${props.active ? "on-dot" : "off-dot"}`} onClick={toggle}></button>
+    <button className={`dot ${highlighted ? "highlighted-dot" : ""} ${props.active ? "on-dot" : "off-dot"} ${mutedHighlighted ? "muted-dot" : ""}`} onClick={toggle}></button>
   )
 }

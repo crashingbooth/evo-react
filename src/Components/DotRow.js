@@ -22,7 +22,7 @@ export default function DotRow(props) {
       <div className="spacer"/>
       <div className="v-line"/>
       <div className="spacer"/>
-      {pattern.map((beat, index) => <Dot active={beat} key={index} id={index} lineNumber={props.lineNumber}/>)}
+      {pattern.map((beat, index) => <Dot active={beat} key={index} id={index} lineNumber={props.lineNumber} isMute={lines[props.lineNumber].muteStatus}/>)}
     </div>
   )
 }

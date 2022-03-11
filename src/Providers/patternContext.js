@@ -1,5 +1,6 @@
 import * as Tone from "tone";
 import React, { useState, useContext, createContext } from 'react';
+import {resources} from '../audioUrls'
 
 export const patternContext = createContext();
 
@@ -8,20 +9,40 @@ const PatternProvider = props => {
   const bPat2 = [0,0,1,0, 0,0,1,1, 0,0,1,0, 0,0,1,1];
   const bPat3 = [1,0,0,1, 0,0,1,0, 0,1,0,0, 1,0,1,0];
   const bPat4 = [0,0,0,0, 0,0,0,0, 0,0,0,1, 0,1,0,1];
+  const bPat5 = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0];
   const patterns = [bPat1, bPat2];
 
   const synthA = new Tone.Sampler({
-	urls: {	C3: "audio/kick.mp3" },
-	baseUrl: "https://raw.githubusercontent.com/crashingbooth/static-step-sequencer/main/"}).toDestination();
+	urls: {	C3: resources.kick1.filename },
+	baseUrl: resources.kick1.url}).toDestination();
+
   const synthB = new Tone.Sampler({
-	urls: { C3: "audio/hh.wav" },
-	baseUrl: "https://raw.githubusercontent.com/crashingbooth/static-step-sequencer/main/"}).toDestination();
-  const synths = [synthA, synthB];
-  const muteStatuses = [false, false];
+    urls: {	C3: resources.hh1.filename },
+  	baseUrl: resources.hh1.url}).toDestination();
+
+  const synthC = new Tone.Sampler({
+    urls: {	C3: resources.rim1.filename },
+    baseUrl: resources.baseUrl}).toDestination();
+
+  const synthD = new Tone.Sampler({
+    urls: {	C3: resources.tom1.filename },
+    baseUrl: resources.baseUrl}).toDestination();
+
+  const synthE = new Tone.Sampler({
+    urls: {	C3: resources.snare1.filename },
+    baseUrl: resources.baseUrl}).toDestination();
+
+
+
+  const synths = [synthA, synthB, synthC];
+  const muteStatuses = [false, false, false];
 
   const sampleLines = [
     {pattern: bPat1, sample: synthA, muteStatus: false},
-    {pattern: bPat2, sample: synthB, muteStatus: false}
+    {pattern: bPat2, sample: synthB, muteStatus: false},
+    {pattern: bPat3, sample: synthC, muteStatus: false},
+    {pattern: bPat4, sample: synthD, muteStatus: false},
+    {pattern: bPat5, sample: synthE, muteStatus: false},
   ]
     const [lines, setLines] = useState(sampleLines);
 
@@ -78,10 +99,6 @@ const PatternProvider = props => {
     pat[dotNumber] = !pat[dotNumber];
     setLine(lineNumber, pat);
   }
-
-
-
-
 
   const provideData = { lines, setLines, setPat1, setPat2, logLines, toggleMuteForLine, randomizeLine , toggleDot};
 
