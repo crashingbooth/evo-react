@@ -7,12 +7,12 @@ import '../Styles/styles.css';
 export default function Dot(props) {
   const [highlighted, setHighlighted] = useState(false);
   const { pos } = useContext(positionContext);
-  const { pattern } = useContext(patternContext);
+  const { pattern, toggleDot } = useContext(patternContext);
   useEffect(() => {
     if (!props.active || highlighted) { return; }
 
     if (props.id === pos) {
-      flash(150,150)
+      flash(170,150)
     }
   },[pos]);
 
@@ -25,7 +25,11 @@ export default function Dot(props) {
     },delay)
   };
 
+  const toggle = () => {
+    toggleDot(props.lineNumber, props.id);
+  }
+
   return (
-    <button className={`dot ${highlighted ? "highlighted-dot" : ""} ${props.active ? "on-dot" : "off-dot"}`} onClick={flash}></button>
+    <button className={`dot ${highlighted ? "highlighted-dot" : ""} ${props.active ? "on-dot" : "off-dot"}`} onClick={toggle}></button>
   )
 }
