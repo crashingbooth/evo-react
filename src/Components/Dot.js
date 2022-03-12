@@ -32,13 +32,14 @@ export default function Dot(props) {
   }
 
   return (
-    <button className={`dot
-      ${highlighted ? "highlighted-dot" : ""}
-     ${props.active ? "on-dot" : "off-dot"}
-     ${mutedHighlighted ? "muted-dot" : ""}
-     ${(props.id % 8) >= 4 ? "light-background" : "dark-background"}
-     `}
-     onClick={toggle}>
-     </button>
+    <span className={(props.id % 8) >= 4  ? "light-background-chunk" : "dark-background-chunk"}>
+      <button className={`dot
+        ${highlighted ? "highlighted-dot" : ""}
+       ${props.active ? "on-dot" : "off-dot"}
+       ${mutedHighlighted ? "muted-dot" : ""}
+       `}
+       onClick={toggle}>
+       </button>
+     </span>
   )
 }

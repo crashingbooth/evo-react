@@ -25,10 +25,12 @@
     background-color: yellow;
 }
 
-/* .light-background {
+.light-background-chunk {
   background: #ddd;
+  display: inline-block;
 }
 
-.dark-background {
+.dark-background-chunk {
+  display: inline-block;
   background: #aaa;
-} */
+}
