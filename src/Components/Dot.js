@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {positionContext} from '../Providers/positionContext';
 import {patternContext} from '../Providers/patternContext';
-import './Dot.css';
+import '../Styles/Dot.css';
 import '../Styles/styles.css';
 
 export default function Dot(props) {
@@ -32,6 +32,14 @@ export default function Dot(props) {
   }
 
   return (
-    <button className={`dot ${highlighted ? "highlighted-dot" : ""} ${props.active ? "on-dot" : "off-dot"} ${mutedHighlighted ? "muted-dot" : ""}`} onClick={toggle}></button>
+    <span className={(props.id % 8) >= 4  ? "light-background-chunk" : "dark-background-chunk"}>
+      <button className={`dot
+        ${highlighted ? "highlighted-dot" : ""}
+       ${props.active ? "on-dot" : "off-dot"}
+       ${mutedHighlighted ? "muted-dot" : ""}
+       `}
+       onClick={toggle}>
+       </button>
+     </span>
   )
 }

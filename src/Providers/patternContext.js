@@ -56,16 +56,6 @@ const PatternProvider = props => {
     return result;
   }
 
-  const setPat1 = () => {
-    const newLines = bundleProperties([bPat1,bPat2], synths, muteStatuses);
-    setLines(newLines)
-  }
-
-  const setPat2 = () => {
-    const newLines = bundleProperties([bPat3, bPat4], synths, muteStatuses);
-    setLines(newLines)
-  }
-
   const logLines = () => {
     console.log(lines);
   }
@@ -100,7 +90,7 @@ const PatternProvider = props => {
     setLine(lineNumber, pat);
   }
 
-  const provideData = { lines, setLines, setPat1, setPat2, logLines, toggleMuteForLine, randomizeLine , toggleDot};
+  const provideData = { lines, setLines, logLines, toggleMuteForLine, randomizeLine , toggleDot};
 
   return (
     <patternContext.Provider value={provideData}>

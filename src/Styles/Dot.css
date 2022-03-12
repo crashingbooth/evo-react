@@ -24,3 +24,13 @@
 .muted-dot {
     background-color: yellow;
 }
+
+.light-background-chunk {
+  background: #ddd;
+  display: inline-block;
+}
+
+.dark-background-chunk {
+  display: inline-block;
+  background: #aaa;
+}
