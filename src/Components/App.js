@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
 import './App.css';
-import DotRow from './DotRow';
+import Track from './Track';
 import Transport from './Transport';
 import {patternContext} from '../Providers/patternContext';
 
@@ -12,7 +12,7 @@ function App() {
     <>
       <Transport/>
       <div id="wrapper">
-        {lines.map((line, i) => <DotRow lineNumber={i} key={i}/>)}
+        {lines.map((line, i) => <Track lineNumber={i} key={i}/>)}
       </div>
     </>
   );

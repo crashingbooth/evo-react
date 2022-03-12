@@ -3,9 +3,9 @@ import Dot from './Dot';
 import MuteButton from './MuteButton';
 import RandomButton from './RandomButton';
 import {patternContext} from '../Providers/patternContext';
-import '../Styles/DotRow.css';
+import '../Styles/Track.css';
 
-export default function DotRow(props) {
+export default function Track(props) {
   const { lines } = useContext(patternContext);
   const [pattern, setPattern] = useState([]);
 
