@@ -32,7 +32,7 @@ export default function Dot(props) {
   }
 
   return (
-    <span className={(props.id % 8) >= 4  ? "light-background-chunk" : "dark-background-chunk"}>
+    <span className={(props.id % 8) >= 4  ? "dark-background-chunk" : "light-background-chunk"}>
       <button className={`dot
         ${highlighted ? "highlighted-dot" : ""}
        ${props.active ? "on-dot" : "off-dot"}
