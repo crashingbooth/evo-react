@@ -1,14 +1,23 @@
 .event-section-wrapper {
 
 }
+.label-holder {
+  display: block;
+  width: 80px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.label-holder p {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
 
 .wrapper {
   display: flex;
   flex-direction: row;
   justify-content: left;
-  /* background-color: #eee; */
   padding: 5px;
-  margin: 2px;
 }
 
 .v-line {
