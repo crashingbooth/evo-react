@@ -14,15 +14,17 @@ function TrackEventSection(props) {
 
   return (
     <>
-      {pattern.map((beat, index) => (
-        <Dot
-          active={beat}
-          key={index}
-          id={index}
-          lineNumber={props.lineNumber}
-          isMute={lines[props.lineNumber].muteStatus}
-        />
-      ))}
+      <div className="event-section-wrapper">
+        {pattern.map((beat, index) => (
+          <Dot
+            active={beat}
+            key={index}
+            id={index}
+            lineNumber={props.lineNumber}
+            isMute={lines[props.lineNumber].muteStatus}
+          />
+        ))}
+      </div>
     </>
   );
 }
