@@ -1,3 +1,31 @@
+.transport-wrapper {
+  display: inline-block;
+  white-space: nowrap;
+  display: flex;
+}
+
+.tempo-wrapper {
+  border: 1px solid #666;
+  display: flex;
+}
+
+.tempo-wrapper p {
+  max-resolution: 0;
+}
+
+.stepper {
+  display: block;
+}
+
+.stepper-left {
+  float: left;
+}
+
+.stepper-right {
+  float: right;
+}
+
 .transport-button {
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
