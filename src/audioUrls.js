@@ -34,33 +34,31 @@ const resources = {
   }
 }
 
-const createAudioResources = () => {
+const createSamplerWithResources = () => {
   const myUrls = Object.values(resources).reduce((result, curr) => {
     result[curr.note] = curr.filename;
     return result;
   },{});
 
-  const synth = new Tone.Sampler({
+  return new Tone.Sampler({
     urls: myUrls,
     baseUrl: resourceBaseUrl
   }).toDestination();
-
-  return Object.values(resources).map((res) => {
-    return {
-      synth: synth,
-      displayName: res.displayName,
-      note: res.note
-    };
-  });
 }
 
-const audioResources = createAudioResources();
+const audioResources = Object.values(resources).map((res) => {
+  return {
+    displayName: res.displayName,
+    note: res.note
+  };
+});
+const sampler = createSamplerWithResources();
 const resourceNames = Object.values(resources).map((res) => {
-  return res.displayName
+  return res.displayName;
 });
 
 const resourceFromName = name => {
    return audioResources.filter(e => name === e.displayName)[0];
 }
 
-export {audioResources, resourceNames, resourceFromName};
+export {audioResources, resourceNames, resourceFromName, sampler};

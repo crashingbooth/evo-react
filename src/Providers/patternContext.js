@@ -1,6 +1,6 @@
 import * as Tone from "tone";
 import React, { useState, useContext, createContext, useEffect } from "react";
-import { audioResources } from "../audioUrls";
+import { audioResources, sampler } from "../audioUrls";
 
 export const patternContext = createContext();
 
@@ -15,7 +15,7 @@ const PatternProvider = (props) => {
   const sampleLines = audioResources.map((audioResource, i) => {
     return {
       pattern: bPats[i],
-      sample: audioResource.synth,
+      sample: sampler,
       muteStatus: false,
       displayName: audioResource.displayName,
       note: audioResource.note

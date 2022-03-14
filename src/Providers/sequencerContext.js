@@ -2,6 +2,7 @@ import * as Tone from "tone";
 import React, { useState, useContext, createContext, useEffect, useRef } from 'react';
 import {positionContext} from '../Providers/positionContext';
 import {patternContext} from '../Providers/patternContext';
+import { sampler } from "../audioUrls";
 
 
 export const sequencerContext = createContext();
@@ -27,7 +28,7 @@ const SequencerProvider = props => {
     let i = 0;
     loopA = new Tone.Loop((time) => {
       for (let line of localLines.current) {
-        if (line.pattern[i] && !line.muteStatus) { line.sample.triggerAttackRelease(line.note,"16n",time);  }
+        if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
       }
       i = ((i + 1) % 16);
       setPosition(i);
