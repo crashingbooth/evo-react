@@ -55,7 +55,12 @@ const createAudioResources = () => {
 }
 
 const audioResources = createAudioResources();
+const resourceNames = Object.values(resources).map((res) => {
+  return res.displayName
+});
 
+const resourceFromName = name => {
+   return audioResources.filter(e => name === e.displayName)[0];
+}
 
-
-export {audioResources};
+export {audioResources, resourceNames, resourceFromName};

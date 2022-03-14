@@ -4,21 +4,29 @@ import RandomButton from './RandomButton';
 import TrackEventSection from './TrackEventSection';
 import { patternContext } from "../Providers/patternContext";
 import '../Styles/Track.css';
+import { resourceNames, resourceFromName } from "../audioUrls";
 
-export default function Track(props) {
-  const { lines } = useContext(patternContext);
+export default function Track({lineNumber}) {
+  const { lines, setSample } = useContext(patternContext);
+
+  const selectSample = e => {
+    let resource = resourceFromName(e.target.value);
+    setSample(lineNumber, resource);
+  }
 
   return (
     <div className='wrapper'>
       <span className='label-holder'>
-        <p>{`${lines[props.lineNumber].displayName}`}</p>
+        <select onChange={selectSample} defaultValue={lines[lineNumber].displayName}>
+          {resourceNames.map(e => <option key={e} value={e}>{e}</option>)}
+        </select>
       </span>
-      <MuteButton lineNumber={props.lineNumber} />
-      <RandomButton lineNumber={props.lineNumber} />
+      <MuteButton lineNumber={lineNumber} />
+      <RandomButton lineNumber={lineNumber} />
       <div className="spacer"/>
       <div className="v-line"/>
       <div className="spacer"/>
-      <TrackEventSection lineNumber={props.lineNumber}/>
+      <TrackEventSection lineNumber={lineNumber}/>
     </div>
   )
 }

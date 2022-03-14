@@ -48,6 +48,13 @@ const PatternProvider = (props) => {
     setLines(prev);
   };
 
+  const setSample = (lineNumber, resourceDetails) => {
+    const prev = [...lines];
+    prev[lineNumber].displayName = resourceDetails.displayName;
+    prev[lineNumber].note = resourceDetails.note;
+    setLines(prev);
+  }
+
   const randomizeLine = (lineNumber) => {
     setLine(lineNumber, generateRandomLine(lines[0].pattern.length));
   };
@@ -65,6 +72,7 @@ const PatternProvider = (props) => {
     toggleMuteForLine,
     randomizeLine,
     toggleDot,
+    setSample
   };
 
   return (
