@@ -18,6 +18,7 @@ const PatternProvider = (props) => {
       sample: audioResource.synth,
       muteStatus: false,
       displayName: audioResource.displayName,
+      note: audioResource.note
     };
   });
 
