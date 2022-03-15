@@ -6,11 +6,6 @@ function RandomButton(props) {
   const {lines, randomizeLine } = useContext(patternContext);
   const [highlighted, setHighlighted] = useState(false);
 
-  // useEffect(() => {
-  //   setIsMute(lines[props.lineNumber].muteStatus);
-  //   console.log("set is mute called")
-  // }, [lines])
-
   const randomize = () => {
     console.log('tapped mute');
     randomizeLine(props.lineNumber);

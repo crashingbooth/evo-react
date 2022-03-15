@@ -86,6 +86,12 @@ const PatternProvider = (props) => {
     setLines(prev);
   }
 
+  const deleteLine = (lineNumber) => {
+    const prev = [...lines];
+    prev.splice(lineNumber,1);
+    setLines(prev);
+  }
+
   const provideData = {
     lines,
     setLines,
@@ -95,7 +101,8 @@ const PatternProvider = (props) => {
     toggleDot,
     setSample,
     savePattern,
-    addTrack
+    addTrack,
+    deleteLine
   };
 
   return (

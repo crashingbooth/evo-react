@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import MuteButton from './MuteButton';
 import RandomButton from './RandomButton';
+import RemoveButton from './RemoveButton';
 import TrackEventSection from './TrackEventSection';
 import { patternContext } from "../Providers/patternContext";
 import '../Styles/Track.css';
@@ -23,6 +24,7 @@ export default function Track({lineNumber}) {
       </span>
       <MuteButton lineNumber={lineNumber} />
       <RandomButton lineNumber={lineNumber} />
+      <RemoveButton lineNumber={lineNumber} />
       <div className="spacer"/>
       <div className="v-line"/>
       <div className="spacer"/>
