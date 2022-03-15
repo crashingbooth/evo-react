@@ -1,6 +1,7 @@
 import * as Tone from "tone";
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { audioResources, sampler } from "../audioUrls";
+import { writePatternToJSON } from "../persistence";
 
 export const patternContext = createContext();
 
@@ -15,7 +16,6 @@ const PatternProvider = (props) => {
   const sampleLines = audioResources.map((audioResource, i) => {
     return {
       pattern: bPats[i],
-      sample: sampler,
       muteStatus: false,
       displayName: audioResource.displayName,
       note: audioResource.note
@@ -65,6 +65,10 @@ const PatternProvider = (props) => {
     setLine(lineNumber, pat);
   };
 
+  const savePattern = () => {
+    writePatternToJSON(lines);
+  }
+
   const provideData = {
     lines,
     setLines,
@@ -72,7 +76,8 @@ const PatternProvider = (props) => {
     toggleMuteForLine,
     randomizeLine,
     toggleDot,
-    setSample
+    setSample,
+    savePattern
   };
 
   return (

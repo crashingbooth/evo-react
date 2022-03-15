@@ -7,7 +7,7 @@ import '../Styles/transport.css';
 
 function Transport() {
   const {play, stop} = useContext(sequencerContext);
-  const {logLines} = useContext(patternContext);
+  const {savePattern} = useContext(patternContext);
   console.log("rerender transport");
 
   const test = () => {
@@ -17,7 +17,7 @@ function Transport() {
     <div className="transport-wrapper">
       <button className="transport-button" onClick={play}>Play</button>
       <button className="transport-button" onClick={stop}>Stop</button>
-      <button className="transport-button" onClick={logLines}>Log Lines</button>
+      <button className="transport-button" onClick={savePattern}>Save Lines</button>
       <TempoStepper/>
     </div>
   )
