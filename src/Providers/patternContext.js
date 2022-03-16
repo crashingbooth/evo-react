@@ -18,7 +18,7 @@ const PatternProvider = (props) => {
   const bPat5 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   const bPats = [bPat1, bPat2, bPat3, bPat4, bPat5, bPat5, bPat5];
 
-  const sampleLines = audioResources.map((audioResource, i) => {
+  const sampleLines = audioResources.slice(0,2).map((audioResource, i) => {
     return {
       pattern: bPats[i],
       muteStatus: false,
@@ -28,6 +28,8 @@ const PatternProvider = (props) => {
   });
 
   const [lines, setLines] = useState(sampleLines);
+  const [history, setHistory] = useState([sampleLines]);
+  const [redoStack, setRedoStack] = useState([]);
 
   const logLines = () => {
     console.log(lines);
@@ -47,10 +49,28 @@ const PatternProvider = (props) => {
     return res;
   };
 
+  const deepCopySingleTrack = track => {
+    return {
+      pattern: [...track.pattern],
+      muteStatus: track.muteStatus,
+      displayName: track.displayName,
+      note: track.note
+    }
+  }
+
+  const deepCopyTrackSet = tracks => {
+    return tracks.map(track => deepCopySingleTrack(track));
+  }
+
+  const deepCopyHistory = history => {
+    return history.map(layer => deepCopyTrackSet(layer))
+  }
+
   const setLine = (lineNumber, newPattern) => {
     const prev = [...lines];
-    prev[lineNumber].pattern = newPattern;
-    setLines(prev);
+    prev[lineNumber].pattern = [...newPattern];
+    setLines([...prev]);
+    addToHistory([...prev]);
   };
 
   const setSample = (lineNumber, resourceDetails) => {
@@ -66,8 +86,8 @@ const PatternProvider = (props) => {
 
   const toggleDot = (lineNumber, dotNumber) => {
     const pat = [...lines[lineNumber].pattern];
-    pat[dotNumber] = !pat[dotNumber];
-    setLine(lineNumber, pat);
+    pat[dotNumber] = ((pat[dotNumber] + 1) % 2);
+    setLine(lineNumber, [...pat]);
   };
 
   const savePattern = () => {
@@ -84,13 +104,47 @@ const PatternProvider = (props) => {
     }
     prev.push(newLine);
     setLines(prev);
+    addToHistory([...prev]);
   }
 
   const deleteLine = (lineNumber) => {
     const prev = [...lines];
     prev.splice(lineNumber,1);
     setLines(prev);
+    addToHistory([...prev]);
   }
+
+  const addToHistory = (tracks) => {
+    setRedoStack([]);
+    const historyCopy = deepCopyHistory(history);
+    historyCopy.push([...tracks]);
+    setHistory(deepCopyHistory(historyCopy));
+    console.log(historyCopy)
+    // if (history.length > 25) {
+    //   let copy = [...history];
+    //   copy.shift();
+    //   setHistory([...copy]);
+    // }
+  }
+
+  const undo = () => {
+    const historyCopy = [...history];
+    const recent = historyCopy.pop();
+    setHistory([...historyCopy]);
+
+    const underLast = historyCopy[historyCopy.length - 1];
+    setLines([...underLast]);
+
+    const redoCopy = [...redoStack];
+    redoCopy.push(recent);
+    setRedoStack([...redoCopy]);
+  }
+
+  const redo = () => {
+
+  }
+
+
 
   const provideData = {
     lines,
@@ -102,7 +156,8 @@ const PatternProvider = (props) => {
     setSample,
     savePattern,
     addTrack,
-    deleteLine
+    deleteLine,
+    undo
   };
 
   return (
