@@ -67,17 +67,17 @@ const PatternProvider = (props) => {
   }
 
   const setLine = (lineNumber, newPattern) => {
-    const prev = [...lines];
-    prev[lineNumber].pattern = [...newPattern];
-    setLines([...prev]);
-    addToHistory([...prev]);
+    const allTracks = deepCopyTrackSet(lines)
+    allTracks[lineNumber].pattern = [...newPattern];
+    setLines(deepCopyTrackSet(allTracks));
+    addToHistory(deepCopyTrackSet(allTracks));
   };
 
   const setSample = (lineNumber, resourceDetails) => {
-    const prev = [...lines];
-    prev[lineNumber].displayName = resourceDetails.displayName;
-    prev[lineNumber].note = resourceDetails.note;
-    setLines(prev);
+    const allTracks = deepCopyTrackSet(lines)
+    allTracks[lineNumber].displayName = resourceDetails.displayName;
+    allTracks[lineNumber].note = resourceDetails.note;
+    setLines(deepCopyTrackSet(allTracks));
   }
 
   const randomizeLine = (lineNumber) => {
@@ -85,7 +85,8 @@ const PatternProvider = (props) => {
   };
 
   const toggleDot = (lineNumber, dotNumber) => {
-    const pat = [...lines[lineNumber].pattern];
+    const allTracks = deepCopyTrackSet(lines)
+    const pat = allTracks[lineNumber].pattern;
     pat[dotNumber] = ((pat[dotNumber] + 1) % 2);
     setLine(lineNumber, [...pat]);
   };
@@ -95,16 +96,16 @@ const PatternProvider = (props) => {
   }
 
   const addTrack = () => {
-    const prev = [...lines];
+    const allTracks = deepCopyTrackSet(lines)
     const newLine = {
       pattern: Array(16).fill(0),
       muteStatus: false,
       displayName: audioResources[0].displayName,
       note: audioResources[0].note
     }
-    prev.push(newLine);
-    setLines(prev);
-    addToHistory([...prev]);
+    allTracks.push(newLine);
+    setLines(deepCopyTrackSet(allTracks));
+    addToHistory(deepCopyTrackSet(allTracks));
   }
 
   const deleteLine = (lineNumber) => {
@@ -117,20 +118,14 @@ const PatternProvider = (props) => {
   const addToHistory = (tracks) => {
     setRedoStack([]);
     const historyCopy = deepCopyHistory(history);
-    historyCopy.push([...tracks]);
+    historyCopy.push(deepCopyTrackSet(tracks));
     setHistory(deepCopyHistory(historyCopy));
-    console.log(historyCopy)
-    // if (history.length > 25) {
-    //   let copy = [...history];
-    //   copy.shift();
-    //   setHistory([...copy]);
-    // }
   }
 
   const undo = () => {
-    const historyCopy = [...history];
+    const historyCopy = deepCopyHistory(history);
     const recent = historyCopy.pop();
-    setHistory([...historyCopy]);
+    setHistory(deepCopyHistory(historyCopy));
 
     const underLast = historyCopy[historyCopy.length - 1];
     setLines([...underLast]);
