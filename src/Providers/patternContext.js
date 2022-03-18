@@ -109,10 +109,10 @@ const PatternProvider = (props) => {
   }
 
   const deleteLine = (lineNumber) => {
-    const prev = [...lines];
-    prev.splice(lineNumber,1);
-    setLines(prev);
-    addToHistory([...prev]);
+    const allTracks = deepCopyTrackSet(lines)
+    allTracks.splice(lineNumber,1);
+    setLines(deepCopyTrackSet(allTracks));
+    addToHistory(deepCopyTrackSet(allTracks));
   }
 
   const addToHistory = (tracks) => {
@@ -128,15 +128,28 @@ const PatternProvider = (props) => {
     setHistory(deepCopyHistory(historyCopy));
 
     const underLast = historyCopy[historyCopy.length - 1];
-    setLines([...underLast]);
+    setLines(deepCopyTrackSet(underLast));
 
-    const redoCopy = [...redoStack];
+    const redoCopy = deepCopyHistory(redoStack);
     redoCopy.push(recent);
-    setRedoStack([...redoCopy]);
+    setRedoStack(deepCopyHistory(redoCopy));
+  }
+
+  const canUndo = () => {
+    return history.length > 1;
   }
 
   const redo = () => {
+    const redoCopy = deepCopyHistory(redoStack);
+    const redoTracks = redoCopy.pop();
+    setRedoStack(deepCopyHistory(redoCopy));
 
+    setLines(deepCopyTrackSet(redoTracks));
+    addToHistory(deepCopyTrackSet(redoTracks));
+  }
+
+  const canRedo = () => {
+    return redoStack.length > 0;
   }
 
 
@@ -152,7 +165,10 @@ const PatternProvider = (props) => {
     savePattern,
     addTrack,
     deleteLine,
-    undo
+    undo,
+    canUndo,
+    redo,
+    canRedo
   };
 
   return (
