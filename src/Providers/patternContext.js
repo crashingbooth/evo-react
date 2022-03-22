@@ -115,8 +115,8 @@ const PatternProvider = (props) => {
     addToHistory(deepCopyTrackSet(allTracks));
   }
 
-  const addToHistory = (tracks) => {
-    setRedoStack([]);
+  const addToHistory = (tracks, blockReset = false) => {
+    if (!blockReset) setRedoStack([]);
     const historyCopy = deepCopyHistory(history);
     historyCopy.push(deepCopyTrackSet(tracks));
     setHistory(deepCopyHistory(historyCopy));
@@ -143,7 +143,7 @@ const PatternProvider = (props) => {
     setRedoStack(deepCopyHistory(redoCopy));
 
     setLines(deepCopyTrackSet(redoTracks));
-    addToHistory(deepCopyTrackSet(redoTracks));
+    addToHistory(deepCopyTrackSet(redoTracks), true); // block reset
   }
 
   const canRedo = redoStack.length > 0;
