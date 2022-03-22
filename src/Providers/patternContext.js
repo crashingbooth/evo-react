@@ -135,9 +135,7 @@ const PatternProvider = (props) => {
     setRedoStack(deepCopyHistory(redoCopy));
   }
 
-  const canUndo = () => {
-    return history.length > 1;
-  }
+  const canUndo = history.length > 1;
 
   const redo = () => {
     const redoCopy = deepCopyHistory(redoStack);
@@ -148,11 +146,7 @@ const PatternProvider = (props) => {
     addToHistory(deepCopyTrackSet(redoTracks));
   }
 
-  const canRedo = () => {
-    return redoStack.length > 0;
-  }
-
-
+  const canRedo = redoStack.length > 0;
 
   const provideData = {
     lines,
