@@ -78,6 +78,7 @@ const PatternProvider = (props) => {
     allTracks[lineNumber].displayName = resourceDetails.displayName;
     allTracks[lineNumber].note = resourceDetails.note;
     setLines(deepCopyTrackSet(allTracks));
+    addToHistory(deepCopyTrackSet(allTracks));
   }
 
   const randomizeLine = (lineNumber) => {
@@ -117,6 +118,7 @@ const PatternProvider = (props) => {
 
   const addToHistory = (tracks, blockReset = false) => {
     if (!blockReset) setRedoStack([]);
+
     const historyCopy = deepCopyHistory(history);
     historyCopy.push(deepCopyTrackSet(tracks));
     setHistory(deepCopyHistory(historyCopy));
