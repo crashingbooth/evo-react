@@ -10,7 +10,7 @@ function Transport() {
   const {savePattern, addTrack, undo, redo, canUndo, canRedo} = useContext(patternContext);
 
   return (
-    <div className="transport-wrapper">
+    <div className="transport-wrapper section-wrapper">
       <button className="transport-button" onClick={play}>Play</button>
       <button className="transport-button" onClick={stop}>Stop</button>
       <button className="transport-button" onClick={savePattern}>Save Lines</button>

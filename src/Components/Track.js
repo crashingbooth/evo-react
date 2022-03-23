@@ -16,7 +16,7 @@ export default function Track({lineNumber}) {
   }
 
   return (
-    <div className='wrapper'>
+    <div className='track-wrap'>
       <span className='label-holder'>
         <select id="sample-select" onChange={selectSample} defaultValue={lines[lineNumber].displayName}>
           {resourceNames.map(e => <option key={e} value={e}>{e}</option>)}

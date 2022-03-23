@@ -13,11 +13,10 @@
   margin-bottom: 0px;
 }
 
-.wrapper {
+.track-wrap{
   display: flex;
   flex-direction: row;
   justify-content: left;
-  padding: 5px;
 }
 
 .v-line {

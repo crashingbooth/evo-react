@@ -1,4 +1,17 @@
 
+.section-wrapper {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid black;
+  background-color: #eee;
+  display: inline-block;
+}
+
+.body-wrapper {
+  display: block;
+}
+
+
 .dot {
   border-style: solid;
   border-color: black;
