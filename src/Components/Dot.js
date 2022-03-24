@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {positionContext} from '../Providers/positionContext';
 import {patternContext} from '../Providers/patternContext';
-import {sequencerContext} from '../Providers/sequencerContext';
 import '../Styles/Dot.css';
 import '../Styles/styles.css';
 
@@ -9,10 +8,10 @@ export default function Dot(props) {
   const [highlighted, setHighlighted] = useState(false);
   const [mutedHighlighted, setMutedHighlighted] = useState(false);
   const { pos } = useContext(positionContext);
-  const { pattern, toggleDot } = useContext(patternContext);
-  const { playing } = useContext(sequencerContext);
+  const { pattern, toggleDot, playing } = useContext(patternContext);
 
   useEffect(() => {
+    // console.log("playing?", playing.current);
     if (playing.current && props.active && props.id === pos) {
         flash(200,150)
     }

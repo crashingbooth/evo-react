@@ -1,13 +1,11 @@
 import React, { useState, useRef, useContext, useEffect } from 'react';
-import {sequencerContext} from '../Providers/sequencerContext';
 import {patternContext} from '../Providers/patternContext';
 import TempoStepper from './TempoStepper';
 import '../Styles/styles.css';
 import '../Styles/transport.css';
 
 function Transport() {
-  const {play, stop, playing} = useContext(sequencerContext);
-  const {savePattern, addTrack, undo, redo, canUndo, canRedo} = useContext(patternContext);
+  const {savePattern, addTrack, undo, redo, canUndo, canRedo, play, stop, playing} = useContext(patternContext);
 
   return (
     <div className="transport-wrapper section-wrapper">

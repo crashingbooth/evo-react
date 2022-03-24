@@ -1,5 +1,6 @@
 import * as Tone from "tone";
-import React, { useState, useContext, createContext, useEffect } from "react";
+import React, { useState, useContext, createContext, useEffect, useRef } from "react";
+import { positionContext } from '../Providers/positionContext';
 import { audioResources, sampler } from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 
@@ -30,6 +31,45 @@ const PatternProvider = (props) => {
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
+  const {pos, setPosition} = useContext(positionContext);
+  const playing = useRef();
+  const [bpm, setBpm] = useState(120);
+
+
+  // Sequencer
+  let loopA;
+
+  const play = () => {
+    if (playing.current) { return }
+
+    Tone.start()
+    let i = pos;
+    loopA = new Tone.Loop((time) => {
+      for (let line of lines) {
+        if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
+      }
+      i = ((i + 1) % 16);
+      setPosition(i);
+    }, "8n").start(0);
+
+    Tone.Transport.start();
+    playing.current = true;
+  };
+
+  const stop = () => {
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    playing.current = false;
+    setPosition(-1);
+  }
+
+  const changeBPM = (newTempo) => {
+    Tone.Transport.bpm.value = newTempo;
+    setBpm(newTempo)
+  }
+
+
+  // Patterns
 
   const logLines = () => {
     console.log(lines);
@@ -164,7 +204,12 @@ const PatternProvider = (props) => {
     undo,
     canUndo,
     redo,
-    canRedo
+    canRedo,
+    play,
+    stop,
+    bpm,
+    changeBPM,
+    playing
   };
 
   return (
