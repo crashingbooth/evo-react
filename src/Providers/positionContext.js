@@ -5,7 +5,7 @@ export const positionContext = createContext();
 
 const PositionProvider = props => {
 
-  const [pos, setPos] = useState(0);
+  const [pos, setPos] = useState(-1);
   const setPosition = (newPos) => {
     setPos(newPos);
   }

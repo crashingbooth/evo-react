@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import {positionContext} from '../Providers/positionContext';
 import {patternContext} from '../Providers/patternContext';
+import {sequencerContext} from '../Providers/sequencerContext';
 import '../Styles/Dot.css';
 import '../Styles/styles.css';
 
@@ -9,20 +10,22 @@ export default function Dot(props) {
   const [mutedHighlighted, setMutedHighlighted] = useState(false);
   const { pos } = useContext(positionContext);
   const { pattern, toggleDot } = useContext(patternContext);
-  useEffect(() => {
-    if (!props.active || highlighted) { return; }
+  const { playing } = useContext(sequencerContext);
 
-    if (props.id === pos) {
-      flash(170,150)
+  useEffect(() => {
+    if (playing.current && props.active && props.id === pos) {
+        flash(200,150)
     }
-  },[pos]);
+  },[playing.current, pos]);
 
   const flash = (delay,dur) => {
     setTimeout(() => {
       props.isMute ? setMutedHighlighted(true) : setHighlighted(true);
       setTimeout(() => {
-        setHighlighted(false);
-        setMutedHighlighted(false);
+        if (playing) {
+          setHighlighted(false);
+          setMutedHighlighted(false);
+        }
       },dur);
     },delay)
   };

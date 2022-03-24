@@ -9,7 +9,7 @@ export const sequencerContext = createContext();
 
 const SequencerProvider = props => {
 
-  const {setPosition} = useContext(positionContext);
+  const {pos, setPosition} = useContext(positionContext);
   const {lines} = useContext(patternContext);
   const localLines = useRef(lines);
   const playing = useRef();
@@ -25,7 +25,7 @@ const SequencerProvider = props => {
     if (playing.current) { return; }
 
     Tone.start()
-    let i = 0;
+    let i = pos;
     loopA = new Tone.Loop((time) => {
       for (let line of localLines.current) {
         if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
@@ -42,7 +42,7 @@ const SequencerProvider = props => {
     Tone.Transport.stop();
     Tone.Transport.cancel();
     playing.current = false;
-    setPosition(0);
+    setPosition(-1);
   }
 
   const changeBPM = (newTempo) => {
