@@ -50,7 +50,7 @@ const SequencerProvider = props => {
     setBpm(newTempo)
   }
 
-  const provideData = { play, stop, bpm, changeBPM};
+  const provideData = { play, stop, bpm, changeBPM, playing};
 
   return (
     <sequencerContext.Provider value={provideData}>
