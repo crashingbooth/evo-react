@@ -7,10 +7,6 @@ import { writePatternToJSON } from "../persistence";
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  // const bPat1 = [1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0];
-  // const bPat2 = [0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1];
-  // const bPat3 = [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0];
-  // const bPat4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1];
 
   const bPat1 = [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0];
   const bPat2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -133,7 +129,7 @@ const PatternProvider = (props) => {
   };
 
   const savePattern = () => {
-    writePatternToJSON(lines);
+    writePatternToJSON(lines, bpm);
   }
 
   const addTrack = () => {

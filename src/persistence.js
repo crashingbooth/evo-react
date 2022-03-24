@@ -1,7 +1,8 @@
 
 
-function writePatternToJSON(pattern) {
-  const data = JSON.stringify(pattern);
+function writePatternToJSON(patterns, bpm) {
+  const saveObj = { tempo: bpm, patterns}
+  const data = JSON.stringify(saveObj);
     console.log(data);
   const date = new Date();
   const filename = `pattern-${date.getYear()}-${date.getMonth() + 1}-${date.getDate()}.json`;
