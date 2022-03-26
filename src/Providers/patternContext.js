@@ -137,7 +137,7 @@ const PatternProvider = (props) => {
     fileReader.readAsText(file, "UTF-8");
     fileReader.onload = e => {
       const { tempo, patterns } = JSON.parse(e.target.result);
-      setBpm(tempo);
+      changeBPM(tempo);
       setLines(deepCopyTrackSet(patterns))
       addToHistory(deepCopyTrackSet(patterns));
     };
