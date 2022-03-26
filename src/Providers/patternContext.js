@@ -1,15 +1,12 @@
 import * as Tone from "tone";
-import React, { useState, useContext, createContext, useEffect } from "react";
+import React, { useState, useContext, createContext, useEffect, useRef } from "react";
+import { positionContext } from '../Providers/positionContext';
 import { audioResources, sampler } from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 
 export const patternContext = createContext();
 
 const PatternProvider = (props) => {
-  // const bPat1 = [1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0];
-  // const bPat2 = [0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 1, 1];
-  // const bPat3 = [1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0];
-  // const bPat4 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1];
 
   const bPat1 = [1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0];
   const bPat2 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -30,6 +27,45 @@ const PatternProvider = (props) => {
   const [lines, setLines] = useState(sampleLines);
   const [history, setHistory] = useState([sampleLines]);
   const [redoStack, setRedoStack] = useState([]);
+  const {pos, setPosition} = useContext(positionContext);
+  const playing = useRef();
+  const [bpm, setBpm] = useState(120);
+
+
+  // Sequencer
+  let loopA;
+
+  const play = () => {
+    if (playing.current) { return }
+
+    Tone.start()
+    let i = pos;
+    loopA = new Tone.Loop((time) => {
+      for (let line of lines) {
+        if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
+      }
+      i = ((i + 1) % 16);
+      setPosition(i);
+    }, "8n").start(0);
+
+    Tone.Transport.start();
+    playing.current = true;
+  };
+
+  const stop = () => {
+    Tone.Transport.stop();
+    Tone.Transport.cancel();
+    playing.current = false;
+    setPosition(-1);
+  }
+
+  const changeBPM = (newTempo) => {
+    Tone.Transport.bpm.value = newTempo;
+    setBpm(newTempo)
+  }
+
+
+  // Patterns
 
   const logLines = () => {
     console.log(lines);
@@ -93,7 +129,18 @@ const PatternProvider = (props) => {
   };
 
   const savePattern = () => {
-    writePatternToJSON(lines);
+    writePatternToJSON(lines, bpm);
+  }
+
+  const loadPatterns = file => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, "UTF-8");
+    fileReader.onload = e => {
+      const { tempo, patterns } = JSON.parse(e.target.result);
+      changeBPM(tempo);
+      setLines(deepCopyTrackSet(patterns))
+      addToHistory(deepCopyTrackSet(patterns));
+    };
   }
 
   const addTrack = () => {
@@ -159,12 +206,18 @@ const PatternProvider = (props) => {
     toggleDot,
     setSample,
     savePattern,
+    loadPatterns,
     addTrack,
     deleteLine,
     undo,
     canUndo,
     redo,
-    canRedo
+    canRedo,
+    play,
+    stop,
+    bpm,
+    changeBPM,
+    playing
   };
 
   return (

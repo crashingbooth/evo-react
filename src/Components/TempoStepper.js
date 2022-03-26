@@ -1,9 +1,8 @@
 import React, { useState, useContext, useEffect } from 'react';
-import {sequencerContext} from '../Providers/sequencerContext';
-
+import {patternContext} from '../Providers/patternContext';
 
 function TempoStepper() {
-  const {bpm, changeBPM} = useContext(sequencerContext);
+  const {bpm, changeBPM} = useContext(patternContext);
   const [localBPM, setLocalBPM] = useState(bpm)
 
   useEffect(() => {
