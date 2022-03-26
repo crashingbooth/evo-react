@@ -132,6 +132,17 @@ const PatternProvider = (props) => {
     writePatternToJSON(lines, bpm);
   }
 
+  const loadPatterns = file => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, "UTF-8");
+    fileReader.onload = e => {
+      const { tempo, patterns } = JSON.parse(e.target.result);
+      setBpm(tempo);
+      setLines(deepCopyTrackSet(patterns))
+      addToHistory(deepCopyTrackSet(patterns));
+    };
+  }
+
   const addTrack = () => {
     const allTracks = deepCopyTrackSet(lines)
     const newLine = {
@@ -195,6 +206,7 @@ const PatternProvider = (props) => {
     toggleDot,
     setSample,
     savePattern,
+    loadPatterns,
     addTrack,
     deleteLine,
     undo,
