@@ -106,6 +106,7 @@ const PatternProvider = (props) => {
     const allTracks = deepCopyTrackSet(lines)
     allTracks[lineNumber].pattern = [...newPattern];
     setLines(deepCopyTrackSet(allTracks));
+    console.log(allTracks[lineNumber]);
     addToHistory(deepCopyTrackSet(allTracks));
   };
 
