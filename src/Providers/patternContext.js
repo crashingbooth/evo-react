@@ -29,8 +29,12 @@ const PatternProvider = (props) => {
   const [redoStack, setRedoStack] = useState([]);
   const {pos, setPosition} = useContext(positionContext);
   const playing = useRef();
+  const linesRef = useRef();
   const [bpm, setBpm] = useState(120);
 
+  useEffect(() => {
+    linesRef.current = deepCopyTrackSet(lines);
+  })
 
   // Sequencer
   let loopA;
@@ -41,7 +45,7 @@ const PatternProvider = (props) => {
     Tone.start()
     let i = pos;
     loopA = new Tone.Loop((time) => {
-      for (let line of lines) {
+      for (let line of linesRef.current) {
         if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
       }
       i = ((i + 1) % 16);
@@ -71,10 +75,15 @@ const PatternProvider = (props) => {
     console.log(lines);
   };
 
+  const changeLines = (newLines) => {
+    setLines(deepCopyTrackSet(newLines));
+    linesRef.current = deepCopyTrackSet(newLines);
+  }
+
   const toggleMuteForLine = (lineNumber) => {
     const prev = [...lines];
     prev[lineNumber].muteStatus = !lines[lineNumber].muteStatus;
-    setLines(prev);
+    changeLines(prev);
   };
 
   const generateRandomLine = (size) => {
@@ -105,7 +114,7 @@ const PatternProvider = (props) => {
   const setLine = (lineNumber, newPattern) => {
     const allTracks = deepCopyTrackSet(lines)
     allTracks[lineNumber].pattern = [...newPattern];
-    setLines(deepCopyTrackSet(allTracks));
+    changeLines(deepCopyTrackSet(allTracks));
     console.log(allTracks[lineNumber]);
     addToHistory(deepCopyTrackSet(allTracks));
   };
@@ -114,7 +123,7 @@ const PatternProvider = (props) => {
     const allTracks = deepCopyTrackSet(lines)
     allTracks[lineNumber].displayName = resourceDetails.displayName;
     allTracks[lineNumber].note = resourceDetails.note;
-    setLines(deepCopyTrackSet(allTracks));
+    changeLines(deepCopyTrackSet(allTracks));
     addToHistory(deepCopyTrackSet(allTracks));
   }
 
@@ -139,7 +148,7 @@ const PatternProvider = (props) => {
     fileReader.onload = e => {
       const { tempo, patterns } = JSON.parse(e.target.result);
       changeBPM(tempo);
-      setLines(deepCopyTrackSet(patterns))
+      changeLines(deepCopyTrackSet(patterns))
       addToHistory(deepCopyTrackSet(patterns));
     };
   }
@@ -153,14 +162,14 @@ const PatternProvider = (props) => {
       note: audioResources[0].note
     }
     allTracks.push(newLine);
-    setLines(deepCopyTrackSet(allTracks));
+    changeLines(deepCopyTrackSet(allTracks));
     addToHistory(deepCopyTrackSet(allTracks));
   }
 
   const deleteLine = (lineNumber) => {
     const allTracks = deepCopyTrackSet(lines)
     allTracks.splice(lineNumber,1);
-    setLines(deepCopyTrackSet(allTracks));
+    changeLines(deepCopyTrackSet(allTracks));
     addToHistory(deepCopyTrackSet(allTracks));
   }
 
@@ -178,7 +187,7 @@ const PatternProvider = (props) => {
     setHistory(deepCopyHistory(historyCopy));
 
     const underLast = historyCopy[historyCopy.length - 1];
-    setLines(deepCopyTrackSet(underLast));
+    changeLines(deepCopyTrackSet(underLast));
 
     const redoCopy = deepCopyHistory(redoStack);
     redoCopy.push(recent);
@@ -192,7 +201,7 @@ const PatternProvider = (props) => {
     const redoTracks = redoCopy.pop();
     setRedoStack(deepCopyHistory(redoCopy));
 
-    setLines(deepCopyTrackSet(redoTracks));
+    changeLines(deepCopyTrackSet(redoTracks));
     addToHistory(deepCopyTrackSet(redoTracks), true); // block reset
   }
 
