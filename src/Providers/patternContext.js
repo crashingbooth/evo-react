@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 import React, { useState, useContext, createContext, useEffect, useRef } from "react";
 import { positionContext } from '../Providers/positionContext';
-import { audioResources, sampler } from "../audioUrls";
+import { audioResources, samplers } from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 
 export const patternContext = createContext();
@@ -46,7 +46,7 @@ const PatternProvider = (props) => {
     let i = pos;
     loopA = new Tone.Loop((time) => {
       for (let line of linesRef.current) {
-        if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
+        if (line.pattern[i] && !line.muteStatus) { samplers[line.displayName].sampler.triggerAttackRelease("C4","16n",time);  }
       }
       i = ((i + 1) % 16);
       setPosition(i);
