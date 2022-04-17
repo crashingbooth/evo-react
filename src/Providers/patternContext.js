@@ -20,7 +20,8 @@ const PatternProvider = (props) => {
       pattern: bPats[i],
       muteStatus: false,
       displayName: audioResource.displayName,
-      note: audioResource.note
+      note: audioResource.note,
+      volume: -12
     };
   });
 
@@ -137,6 +138,20 @@ const PatternProvider = (props) => {
     setLine(lineNumber, [...pat]);
   };
 
+  const changeVolume = (lineNumber, level) => {
+    // const allTracks = deepCopyTrackSet(lines)
+    // const pat = allTracks[lineNumber].pattern;
+    // pat.volume = level;
+
+    // console.log(linesRef.current[lineNumber]);
+    const name = linesRef.current[lineNumber].displayName;
+    // samplers[name].volume;
+
+    samplers[name].volume.volume.value = level;
+    console.log(samplers[name].volume.volume.value);
+    // setLine(lineNumber, [...pat])
+  }
+
   const savePattern = () => {
     writePatternToJSON(lines, bpm);
   }
@@ -213,6 +228,7 @@ const PatternProvider = (props) => {
     toggleMuteForLine,
     randomizeLine,
     toggleDot,
+    changeVolume,
     setSample,
     savePattern,
     loadPatterns,

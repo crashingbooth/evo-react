@@ -30,7 +30,7 @@ export default function Track({lineNumber}) {
       <div className="v-line"/>
       <div className="spacer"/>
       <TrackEventSection lineNumber={lineNumber}/>
-      <VolumeControl/>
+      <VolumeControl lineNumber={lineNumber}/>
     </div>
   )
 }

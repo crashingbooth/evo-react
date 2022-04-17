@@ -52,7 +52,7 @@ const createSamplerWithResources = () => {
 const createSamplersObject = () => {
   let samplers = {};
   Object.values(resources).forEach((item, i) => {
-    const vol = new Tone.Volume().toDestination();
+    const vol = new Tone.Volume(0).toDestination();
     const chain = {
       volume: vol,
       sampler: new Tone.Sampler({
