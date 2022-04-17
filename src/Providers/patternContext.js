@@ -1,7 +1,7 @@
 import * as Tone from "tone";
 import React, { useState, useContext, createContext, useEffect, useRef } from "react";
 import { positionContext } from '../Providers/positionContext';
-import { audioResources, sampler } from "../audioUrls";
+import { audioResources, samplers } from "../audioUrls";
 import { writePatternToJSON } from "../persistence";
 
 export const patternContext = createContext();
@@ -20,7 +20,8 @@ const PatternProvider = (props) => {
       pattern: bPats[i],
       muteStatus: false,
       displayName: audioResource.displayName,
-      note: audioResource.note
+      note: audioResource.note,
+      volume: -12
     };
   });
 
@@ -46,7 +47,7 @@ const PatternProvider = (props) => {
     let i = pos;
     loopA = new Tone.Loop((time) => {
       for (let line of linesRef.current) {
-        if (line.pattern[i] && !line.muteStatus) { sampler.triggerAttackRelease(line.note,"16n",time);  }
+        if (line.pattern[i] && !line.muteStatus) { samplers[line.displayName].sampler.triggerAttackRelease("C4","16n",time);  }
       }
       i = ((i + 1) % 16);
       setPosition(i);
@@ -137,6 +138,20 @@ const PatternProvider = (props) => {
     setLine(lineNumber, [...pat]);
   };
 
+  const changeVolume = (lineNumber, level) => {
+    // const allTracks = deepCopyTrackSet(lines)
+    // const pat = allTracks[lineNumber].pattern;
+    // pat.volume = level;
+
+    // console.log(linesRef.current[lineNumber]);
+    const name = linesRef.current[lineNumber].displayName;
+    // samplers[name].volume;
+
+    samplers[name].volume.volume.value = level;
+    console.log(samplers[name].volume.volume.value);
+    // setLine(lineNumber, [...pat])
+  }
+
   const savePattern = () => {
     writePatternToJSON(lines, bpm);
   }
@@ -213,6 +228,7 @@ const PatternProvider = (props) => {
     toggleMuteForLine,
     randomizeLine,
     toggleDot,
+    changeVolume,
     setSample,
     savePattern,
     loadPatterns,

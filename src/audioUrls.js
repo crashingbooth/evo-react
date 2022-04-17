@@ -34,6 +34,7 @@ const resources = {
   }
 }
 
+// for single sampler inst, with different samples on each note
 const createSamplerWithResources = () => {
   const myUrls = Object.values(resources).reduce((result, curr) => {
     result[curr.note] = curr.filename;
@@ -46,13 +47,41 @@ const createSamplerWithResources = () => {
   }).toDestination();
 }
 
+// creates an object with names as keys and samplers as values
+// access via samplers[displayName].sampler, and play with C4
+const createSamplersObject = () => {
+  let samplers = {};
+  Object.values(resources).forEach((item, i) => {
+    const vol = new Tone.Volume(0).toDestination();
+    const chain = {
+      volume: vol,
+      sampler: new Tone.Sampler({
+        urls: {
+          C4: item.filename
+        },
+        baseUrl: resourceBaseUrl
+      }).connect(vol)
+    };
+    samplers[item.displayName] = chain
+  });
+  return samplers;
+}
+
+  //
+  // const myUrls = Object.values(resources).reduce((result, curr) => {
+  //   result[curr.note] = curr.filename;
+  //   return result;
+  // },{});
+// }
+
 const audioResources = Object.values(resources).map((res) => {
   return {
     displayName: res.displayName,
     note: res.note
   };
 });
-const sampler = createSamplerWithResources();
+// const sampler = createSamplerWithResources();
+const samplers = createSamplersObject();
 const resourceNames = Object.values(resources).map((res) => {
   return res.displayName;
 });
@@ -61,4 +90,4 @@ const resourceFromName = name => {
    return audioResources.filter(e => name === e.displayName)[0];
 }
 
-export {audioResources, resourceNames, resourceFromName, sampler};
+export {audioResources, resourceNames, resourceFromName, samplers};

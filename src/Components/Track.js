@@ -3,6 +3,7 @@ import MuteButton from './MuteButton';
 import RandomButton from './RandomButton';
 import RemoveButton from './RemoveButton';
 import TrackEventSection from './TrackEventSection';
+import VolumeControl from './VolumeControl';
 import { patternContext } from "../Providers/patternContext";
 import '../Styles/Track.css';
 import { resourceNames, resourceFromName } from "../audioUrls";
@@ -29,6 +30,7 @@ export default function Track({lineNumber}) {
       <div className="v-line"/>
       <div className="spacer"/>
       <TrackEventSection lineNumber={lineNumber}/>
+      <VolumeControl lineNumber={lineNumber}/>
     </div>
   )
 }
